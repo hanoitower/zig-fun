@@ -2,9 +2,9 @@
 
 def setup_next_dirs():
 	next_dirs = [[]] * 6
-	for d in xrange(6):
+	for d in range(6):
 		axis = (d, (5 - d))
-		next_dirs[d] = [n for n in xrange(6) if n not in axis]
+		next_dirs[d] = [n for n in range(6) if n not in axis]
 		pass 
 	return next_dirs
 
@@ -15,11 +15,11 @@ cell_skip = [1, 5, 25, -25, -5, -1]
 def setup_cube_cells():
 	cube_cells = (5 * 5 * 5) * [99]
 	p2 = cell_skip[2]
-	for i2 in xrange(3):
+	for i2 in range(3):
 		p1 = p2 + cell_skip[1]
-		for i1 in xrange(3):
+		for i1 in range(3):
 			p0 = p1 + cell_skip[0]
-			for i0 in xrange(3):
+			for i0 in range(3):
 				cube_cells[p0] = 0
 				p0 += cell_skip[0]
 				pass
@@ -33,15 +33,15 @@ cube_cells = setup_cube_cells()
 
 def print_cube_cells():
 	p = 0
-	for i2 in xrange(5):
-		for i1 in xrange(5):
-			for i3 in xrange(5):
-				print "%3d" % (cube_cells[p],),
+	for i2 in range(5):
+		for i1 in range(5):
+			for i3 in range(5):
+				print("%3d" % (cube_cells[p],), end='')
 				p += 1
 				pass
-			print
+			print()
 			pass
-		print
+		print()
 		pass
 	return 
 
