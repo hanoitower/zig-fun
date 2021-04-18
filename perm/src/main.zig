@@ -26,6 +26,13 @@ pub const Perm = struct {
         }
     }
 
+    pub fn multiply_self(self: *Perm, a: *const Perm) void {
+        var i: usize = 0;
+        while (i < len) : (i += 1) {
+            self.elements[i] = a.elements[self.elements[i]];
+        }
+    }
+
     pub fn format(self: *const Perm, comptime fmt: []const u8, options: std.fmt.FormatOptions, writer: anytype) !void {
         try writer.writeAll("perm[");
         var i: usize = 0;
@@ -41,15 +48,15 @@ pub fn main() !void {
     try stdout.writeAll("\nP E R M U T A T I O N S\n\n");
     var a: Perm = undefined;
     a.identity();
-    try stdout.print("a = {s}\n\n", .{a});
+    try stdout.print("a := {s}\n\n", .{a});
     var b = a;
     b.swap_elements(0, 1);
     b.swap_elements(1, 2);
     // b.swap_elements(2, 3);
-    try stdout.print("b = {s}\n\n", .{b});
-    var c: Perm = undefined;
-    c.multiply(&b, &b);
-    try stdout.print("c = b x b = {s}\n\n", .{c});
-    a.multiply(&c, &b);
-    try stdout.print("a = c x b = {s}\n\n", .{a});
+    try stdout.print("b := {s}\n\n", .{b});
+    var c = b;
+    c.multiply_self(&b);
+    try stdout.print("c := b x b = {s}\n\n", .{c});
+    c.multiply_self(&b);
+    try stdout.print("c := c x b = {s}\n\n", .{c});
 }
