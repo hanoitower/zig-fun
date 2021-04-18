@@ -26,29 +26,30 @@ pub const Perm = struct {
         }
     }
 
-    pub fn print(self: *const Perm, out: std.fs.File) !void {
-        const writer = out.writer();
+    pub fn format(self: *const Perm, comptime fmt: []const u8, options: std.fmt.FormatOptions, writer: anytype) !void {
         try writer.writeAll("perm[");
         var i: usize = 0;
         while (i < len) : (i += 1) {
             try writer.print(" {d} -> {d} ", .{ i, self.elements[i] });
         }
-        try writer.writeAll("]\n");
+        try writer.writeAll("]");
     }
 };
 
 pub fn main() !void {
-    const stdout = std.io.getStdOut();
-    try stdout.writeAll("permutations\n");
+    const stdout = std.io.getStdOut().writer();
+    try stdout.writeAll("\nP E R M U T A T I O N S\n\n");
     var a: Perm = undefined;
     a.identity();
-    try a.print(stdout);
+    try stdout.print("a = {s}\n\n", .{a});
     var b = a;
     b.swap_elements(0, 1);
     b.swap_elements(1, 2);
-    b.swap_elements(2, 3);
-    try b.print(stdout);
+    // b.swap_elements(2, 3);
+    try stdout.print("b = {s}\n\n", .{b});
     var c: Perm = undefined;
     c.multiply(&b, &b);
-    try c.print(stdout);
+    try stdout.print("c = b x b = {s}\n\n", .{c});
+    a.multiply(&c, &b);
+    try stdout.print("a = c x b = {s}\n\n", .{a});
 }
