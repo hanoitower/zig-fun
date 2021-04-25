@@ -26,6 +26,30 @@ test "single roman lowercase letters" {
     expect(roman_num.parse("m") == 1000);
 }
 
+test "roman numbers without substraction" {
+    expect(roman_num.parse("II") == 2);
+    expect(roman_num.parse("III") == 3);
+    expect(roman_num.parse("VI") == 6);
+    expect(roman_num.parse("VII") == 7);
+    expect(roman_num.parse("VIII") == 8);
+    expect(roman_num.parse("XI") == 11);
+    expect(roman_num.parse("XII") == 12);
+    expect(roman_num.parse("XIII") == 13);
+    expect(roman_num.parse("XV") == 15);
+    expect(roman_num.parse("XVI") == 16);
+    expect(roman_num.parse("XVII") == 17);
+    expect(roman_num.parse("XVIII") == 18);
+    expect(roman_num.parse("XX") == 20);
+    expect(roman_num.parse("XXX") == 30);
+    expect(roman_num.parse("LX") == 60);
+    expect(roman_num.parse("LXX") == 70);
+    expect(roman_num.parse("LXXX") == 80);
+    expect(roman_num.parse("CI") == 101);
+    expect(roman_num.parse("DI") == 501);
+    expect(roman_num.parse("MI") == 1001);
+    expect(roman_num.parse("MDCLXXVIII") == 1678);
+}
+
 pub fn main() anyerror!void {
     const roman = "MCMIX";
     var value = roman_num.parse(roman);
