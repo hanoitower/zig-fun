@@ -16,6 +16,16 @@ test "single roman uppercase letters" {
     expect(roman_num.parse("M") == 1000);
 }
 
+test "single roman lowercase letters" {
+    expect(roman_num.parse("i") == 1);
+    expect(roman_num.parse("v") == 5);
+    expect(roman_num.parse("x") == 10);
+    expect(roman_num.parse("l") == 50);
+    expect(roman_num.parse("c") == 100);
+    expect(roman_num.parse("d") == 500);
+    expect(roman_num.parse("m") == 1000);
+}
+
 pub fn main() anyerror!void {
     const roman = "MCMIX";
     var value = roman_num.parse(roman);
