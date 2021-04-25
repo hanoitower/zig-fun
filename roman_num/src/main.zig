@@ -85,7 +85,7 @@ pub fn main() !void {
             try stdout.print("Input too long.\n", .{});
             break;
         }
-        const line = std.mem.trimRight(u8, line_buf[0..amt], "\r\n");
+        const line = std.mem.trim(u8, line_buf[0..amt], " \r\n");
         const value = roman_num.parse(line) catch |err| {
             try stdout.print("The input '{s}' is not a roman numeral.\n", .{line});
             continue;
