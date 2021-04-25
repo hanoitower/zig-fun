@@ -50,9 +50,9 @@ test "roman numbers without substraction" {
     expect(roman_num.parse("MDCLXXVIII") == 1678);
 }
 
-// test "roman numbers with substraction" {
-//     expect(roman_num.parse("IV") == 4);
-// }
+test "roman numbers with substraction" {
+    expect(roman_num.parse("IV") == 4);
+}
 
 pub fn main() anyerror!void {
     const roman = "MCMIX";
