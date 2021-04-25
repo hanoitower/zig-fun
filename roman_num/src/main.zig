@@ -3,65 +3,70 @@ const std = @import("std");
 const roman_num = @import("roman_num.zig");
 
 const expect = @import("std").testing.expect;
+const expectError = @import("std").testing.expectError;
 
 const stdout = std.io.getStdOut();
 
 test "single roman uppercase letters" {
-    expect(roman_num.parse("I") == 1);
-    expect(roman_num.parse("V") == 5);
-    expect(roman_num.parse("X") == 10);
-    expect(roman_num.parse("L") == 50);
-    expect(roman_num.parse("C") == 100);
-    expect(roman_num.parse("D") == 500);
-    expect(roman_num.parse("M") == 1000);
+    expect(1 == try roman_num.parse("I"));
+    expect(5 == try roman_num.parse("V"));
+    expect(10 == try roman_num.parse("X"));
+    expect(50 == try roman_num.parse("L"));
+    expect(100 == try roman_num.parse("C"));
+    expect(500 == try roman_num.parse("D"));
+    expect(1000 == try roman_num.parse("M"));
 }
 
 test "single roman lowercase letters" {
-    expect(roman_num.parse("i") == 1);
-    expect(roman_num.parse("v") == 5);
-    expect(roman_num.parse("x") == 10);
-    expect(roman_num.parse("l") == 50);
-    expect(roman_num.parse("c") == 100);
-    expect(roman_num.parse("d") == 500);
-    expect(roman_num.parse("m") == 1000);
+    expect(1 == try roman_num.parse("i"));
+    expect(5 == try roman_num.parse("v"));
+    expect(10 == try roman_num.parse("x"));
+    expect(50 == try roman_num.parse("l"));
+    expect(100 == try roman_num.parse("c"));
+    expect(500 == try roman_num.parse("d"));
+    expect(1000 == try roman_num.parse("m"));
 }
 
 test "roman numbers without substraction" {
-    expect(roman_num.parse("II") == 2);
-    expect(roman_num.parse("III") == 3);
-    expect(roman_num.parse("VI") == 6);
-    expect(roman_num.parse("VII") == 7);
-    expect(roman_num.parse("VIII") == 8);
-    expect(roman_num.parse("XI") == 11);
-    expect(roman_num.parse("XII") == 12);
-    expect(roman_num.parse("XIII") == 13);
-    expect(roman_num.parse("XV") == 15);
-    expect(roman_num.parse("XVI") == 16);
-    expect(roman_num.parse("XVII") == 17);
-    expect(roman_num.parse("XVIII") == 18);
-    expect(roman_num.parse("XX") == 20);
-    expect(roman_num.parse("XXX") == 30);
-    expect(roman_num.parse("LX") == 60);
-    expect(roman_num.parse("LXX") == 70);
-    expect(roman_num.parse("LXXX") == 80);
-    expect(roman_num.parse("CI") == 101);
-    expect(roman_num.parse("DI") == 501);
-    expect(roman_num.parse("MI") == 1001);
-    expect(roman_num.parse("MDCLXXVIII") == 1678);
+    expect(2 == try roman_num.parse("II"));
+    expect(3 == try roman_num.parse("III"));
+    expect(6 == try roman_num.parse("VI"));
+    expect(7 == try roman_num.parse("VII"));
+    expect(8 == try roman_num.parse("VIII"));
+    expect(11 == try roman_num.parse("XI"));
+    expect(12 == try roman_num.parse("XII"));
+    expect(13 == try roman_num.parse("XIII"));
+    expect(15 == try roman_num.parse("XV"));
+    expect(16 == try roman_num.parse("XVI"));
+    expect(17 == try roman_num.parse("XVII"));
+    expect(18 == try roman_num.parse("XVIII"));
+    expect(20 == try roman_num.parse("XX"));
+    expect(30 == try roman_num.parse("XXX"));
+    expect(60 == try roman_num.parse("LX"));
+    expect(70 == try roman_num.parse("LXX"));
+    expect(80 == try roman_num.parse("LXXX"));
+    expect(101 == try roman_num.parse("CI"));
+    expect(501 == try roman_num.parse("DI"));
+    expect(1001 == try roman_num.parse("MI"));
+    expect(1678 == try roman_num.parse("MDCLXXVIII"));
 }
 
 test "roman numbers with substraction" {
-    expect(roman_num.parse("IV") == 4);
-    expect(roman_num.parse("IX") == 9);
-    expect(roman_num.parse("XL") == 40);
-    expect(roman_num.parse("XC") == 90);
-    expect(roman_num.parse("CD") == 400);
-    expect(roman_num.parse("CM") == 900);
-    expect(roman_num.parse("MCMLXXXIV") == 1984);
+    expect(4 == try roman_num.parse("IV"));
+    expect(9 == try roman_num.parse("IX"));
+    expect(40 == try roman_num.parse("XL"));
+    expect(90 == try roman_num.parse("XC"));
+    expect(400 == try roman_num.parse("CD"));
+    expect(900 == try roman_num.parse("CM"));
+    expect(1984 == try roman_num.parse("MCMLXXXIV"));
+}
+
+test "invalid roman letters" {
+    expectError(roman_num.ParseError.InvalidLetter, roman_num.parse("A"));
 }
 
 pub fn main() anyerror!void {
     const roman = "MCMIX";
-    var value = roman_num.parse(roman);
+    var value = try roman_num.parse(roman);
     try stdout.writer().print("{s} = {d}\n", .{ roman, value });
 }

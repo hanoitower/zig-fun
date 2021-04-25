@@ -4,7 +4,9 @@
 // roman numerals
 //
 
-fn parseLetter(roman_letter: u8) u16 {
+pub const ParseError = error{InvalidLetter};
+
+fn parseLetter(roman_letter: u8) ParseError!u16 {
     if (roman_letter == 'I' or roman_letter == 'i') {
         return 1;
     } else if (roman_letter == 'V' or roman_letter == 'v') {
@@ -20,16 +22,16 @@ fn parseLetter(roman_letter: u8) u16 {
     } else if (roman_letter == 'M' or roman_letter == 'm') {
         return 1000;
     } else {
-        return 0; // ignore all other letters
+        return error.InvalidLetter;
     }
 }
 
-pub fn parse(roman_num: []const u8) u16 {
+pub fn parse(roman_num: []const u8) ParseError!u16 {
     var value: u16 = 0;
     var last_letter_value: u16 = 0;
     var len: usize = roman_num.len;
     while (len > 0) : (len -= 1) {
-        const letter_value = parseLetter(roman_num[len - 1]);
+        const letter_value = try parseLetter(roman_num[len - 1]);
         if (letter_value >= last_letter_value) {
             value += letter_value;
         } else {
