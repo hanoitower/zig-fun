@@ -26,8 +26,9 @@ fn parseLetter(roman_letter: u8) u16 {
 
 pub fn parse(roman_num: []const u8) u16 {
     var value: u16 = 0;
-    for (roman_num) |roman_letter| {
-        value += parseLetter(roman_letter);
+    var i: usize = 0;
+    while (i < roman_num.len) : (i += 1) {
+        value += parseLetter(roman_num[i]);
     }
     return value;
 }
