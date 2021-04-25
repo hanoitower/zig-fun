@@ -52,6 +52,12 @@ test "roman numbers without substraction" {
 
 test "roman numbers with substraction" {
     expect(roman_num.parse("IV") == 4);
+    expect(roman_num.parse("IX") == 9);
+    expect(roman_num.parse("XL") == 40);
+    expect(roman_num.parse("XC") == 90);
+    expect(roman_num.parse("CD") == 400);
+    expect(roman_num.parse("CM") == 900);
+    expect(roman_num.parse("MCMLXXXIV") == 1984);
 }
 
 pub fn main() anyerror!void {
