@@ -4,26 +4,30 @@
 // roman numerals
 //
 
+fn parseLetter(roman_letter: u8) u16 {
+    if (roman_letter == 'I' or roman_letter == 'i') {
+        return 1;
+    } else if (roman_letter == 'V' or roman_letter == 'v') {
+        return 5;
+    } else if (roman_letter == 'X' or roman_letter == 'x') {
+        return 10;
+    } else if (roman_letter == 'L' or roman_letter == 'l') {
+        return 50;
+    } else if (roman_letter == 'C' or roman_letter == 'c') {
+        return 100;
+    } else if (roman_letter == 'D' or roman_letter == 'd') {
+        return 500;
+    } else if (roman_letter == 'M' or roman_letter == 'm') {
+        return 1000;
+    } else {
+        return 0; // ignore all other letters
+    }
+}
+
 pub fn parse(roman_num: []const u8) u16 {
     var value: u16 = 0;
     for (roman_num) |roman_letter| {
-        if (roman_letter == 'I' or roman_letter == 'i') {
-            value += 1;
-        } else if (roman_letter == 'V' or roman_letter == 'v') {
-            value += 5;
-        } else if (roman_letter == 'X' or roman_letter == 'x') {
-            value += 10;
-        } else if (roman_letter == 'L' or roman_letter == 'l') {
-            value += 50;
-        } else if (roman_letter == 'C' or roman_letter == 'c') {
-            value += 100;
-        } else if (roman_letter == 'D' or roman_letter == 'd') {
-            value += 500;
-        } else if (roman_letter == 'M' or roman_letter == 'm') {
-            value += 1000;
-        } else {
-            // ignore all other letters
-        }
+        value += parseLetter(roman_letter);
     }
     return value;
 }
