@@ -21,16 +21,16 @@ fn parseLetter(roman_letter: u8) ParseError!u16 {
 
 pub fn parse(roman_num: []const u8) ParseError!u16 {
     var value: u16 = 0;
-    var last_letter_value: u16 = 0;
+    var max_letter_value: u16 = 0;
     var len: usize = roman_num.len;
     while (len > 0) : (len -= 1) {
         const letter_value = try parseLetter(roman_num[len - 1]);
-        if (letter_value >= last_letter_value) {
+        if (letter_value >= max_letter_value) {
             value += letter_value;
+            max_letter_value = letter_value;
         } else {
             value -= letter_value;
         }
-        last_letter_value = letter_value;
     }
     return value;
 }

@@ -61,6 +61,17 @@ test "roman numbers with substraction" {
     expect(1984 == try roman_num.parse("MCMLXXXIV"));
 }
 
+test "roman numbers with irregular substraction" {
+    expect(8 == try roman_num.parse("IIX"));
+    expect(17 == try roman_num.parse("IIIXX"));
+    expect(18 == try roman_num.parse("IIXX"));
+    expect(18 == try roman_num.parse("XIIX"));
+    expect(28 == try roman_num.parse("XXIIX"));
+    expect(97 == try roman_num.parse("IIIC"));
+    expect(98 == try roman_num.parse("IIC"));
+    expect(99 == try roman_num.parse("IC"));
+}
+
 test "invalid roman letters" {
     expectError(roman_num.ParseError.InvalidLetter, roman_num.parse("A"));
 }
