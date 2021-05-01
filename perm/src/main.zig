@@ -1,11 +1,12 @@
 const std = @import("std");
-const Perm = @import("perm.zig").Perm;
+const perm = @import("perm.zig");
+
+const Perm4 = perm.Perm(4, u8);
 
 pub fn main() !void {
     const stdout = std.io.getStdOut().writer();
     try stdout.writeAll("\nP E R M U T A T I O N S\n\n");
-    const a: Perm = Perm.identity;
-    // a.identity();
+    const a = Perm4.identity;
     try stdout.print("a := {s}\n\n", .{a});
     var b = a;
     b.swap_elements(0, 1);
