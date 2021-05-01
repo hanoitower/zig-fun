@@ -6,12 +6,14 @@ pub const Perm = struct {
 
     elements: [len]ElementType,
 
-    pub fn identity(self: *Perm) void {
+    pub const identity = calc: {
+        var p: Perm = undefined;
         var i: usize = 0;
         while (i < len) : (i += 1) {
-            self.elements[i] = @intCast(ElementType, i);
+            p.elements[i] = @intCast(ElementType, i);
         }
-    }
+        break :calc p;
+    };
 
     pub fn swap_elements(self: *Perm, i: usize, j: usize) void {
         const e = self.elements[i];
@@ -46,8 +48,8 @@ pub const Perm = struct {
 pub fn main() !void {
     const stdout = std.io.getStdOut().writer();
     try stdout.writeAll("\nP E R M U T A T I O N S\n\n");
-    var a: Perm = undefined;
-    a.identity();
+    const a: Perm = Perm.identity;
+    // a.identity();
     try stdout.print("a := {s}\n\n", .{a});
     var b = a;
     b.swap_elements(0, 1);
