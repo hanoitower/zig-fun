@@ -4,8 +4,6 @@
 
 const std = @import("std");
 
-const File = std.fs.File;
-
 pub fn main() !void {
     const my_file = try std.fs.cwd().openFile("build.zig", .{});
     defer my_file.close();
