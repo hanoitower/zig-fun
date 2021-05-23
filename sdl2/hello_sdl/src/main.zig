@@ -25,10 +25,16 @@ pub fn main() anyerror!void {
     };
     defer c.SDL_DestroyRenderer(renderer);
 
-    _ = c.SDL_SetRenderDrawColor(renderer, 0, 0, 0, c.SDL_ALPHA_OPAQUE);
-    _ = c.SDL_RenderClear(renderer);
-
-    c.SDL_RenderPresent(renderer);
-
-    c.SDL_Delay(3000);
+    var quit = false;
+    while (!quit) {
+        var event: c.SDL_Event = undefined;
+        while (c.SDL_PollEvent(&event) != 0) {
+            if (event.@"type" == c.SDL_QUIT) {
+                quit = true;
+            }
+        }
+        _ = c.SDL_SetRenderDrawColor(renderer, 0, 0, 0, c.SDL_ALPHA_OPAQUE);
+        _ = c.SDL_RenderClear(renderer);
+        c.SDL_RenderPresent(renderer);
+    }
 }
