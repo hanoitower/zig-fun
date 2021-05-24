@@ -64,9 +64,29 @@ pub const Renderer = struct {
         c.SDL_DestroyRenderer(self.renderer);
     }
 
-    pub fn render(self: *Renderer) void {
-        _ = c.SDL_SetRenderDrawColor(self.renderer, 0, 0, 0, c.SDL_ALPHA_OPAQUE);
-        _ = c.SDL_RenderClear(self.renderer);
+    pub fn setDrawColor(self: *Renderer, red: u8, green: u8, blue: u8, alpha: u8) !void {
+        if (c.SDL_SetRenderDrawColor(self.renderer, red, green, blue, alpha) != 0) {
+            std.log.emerg("Error in SDL_SetRenderDrawColor: {s}", .{c.SDL_GetError()});
+            return error.Failed;
+        }
+    }
+
+    pub fn clear(self: *Renderer) !void {
+        if (c.SDL_RenderClear(self.renderer) != 0) {
+            std.log.emerg("Error in SDL_RenderClear: {s}", .{c.SDL_GetError()});
+            return error.Failed;
+        }
+    }
+
+    pub fn fillRect(self: *Renderer, x: i32, y: i32, width: i32, height: i32) !void {
+        const rect = c.SDL_Rect{ .x = x, .y = y, .w = width, .h = height };
+        if (c.SDL_RenderFillRect(self.renderer, &rect) != 0) {
+            std.log.emerg("Error in SDL_RenderFillRect: {s}", .{c.SDL_GetError()});
+            return error.Failed;
+        }
+    }
+
+    pub fn present(self: *Renderer) void {
         c.SDL_RenderPresent(self.renderer);
     }
 };
@@ -80,6 +100,10 @@ pub fn main() !void {
     defer renderer.deinit();
     while (!hello.quit) {
         hello.tick();
-        renderer.render();
+        try renderer.setDrawColor(0, 0, 0, c.SDL_ALPHA_OPAQUE);
+        try renderer.clear();
+        try renderer.setDrawColor(0xff, 0x80, 0, c.SDL_ALPHA_OPAQUE);
+        try renderer.fillRect(10, 10, 100, 100);
+        renderer.present();
     }
 }
