@@ -87,6 +87,13 @@ pub const Renderer = struct {
         }
     }
 
+    pub fn drawLine(self: *Renderer, x1: i32, y1: i32, x2: i32, y2: i32) !void {
+        if (c.SDL_RenderDrawLine(self.renderer, x1, y1, x2, y2) != 0) {
+            std.log.emerg("Error in SDL_RenderDrawLine: {s}", .{c.SDL_GetError()});
+            return error.Failed;
+        }
+    }
+
     pub fn present(self: *Renderer) void {
         c.SDL_RenderPresent(self.renderer);
     }

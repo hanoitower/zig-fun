@@ -36,7 +36,11 @@ const Map = struct {
     pub fn draw(self: *Map, renderer: *simple_sdl.Renderer) !void {
         try renderer.setDrawColor(0, 0, 0, c.SDL_ALPHA_OPAQUE);
         try renderer.clear();
+        try self.drawFields(renderer);
+        try self.drawGrid(renderer);
+    }
 
+    fn drawFields(self: *Map, renderer: *simple_sdl.Renderer) !void {
         var iy: usize = 0;
         while (iy < ny) : (iy += 1) {
             const y: i32 = y0 + @intCast(i32, iy) * dy;
@@ -47,6 +51,22 @@ const Map = struct {
                 try renderer.setDrawColor(value, value, value, c.SDL_ALPHA_OPAQUE);
                 try renderer.fillRect(x, y, dx, dy);
             }
+        }
+    }
+
+    fn drawGrid(self: *Map, renderer: *simple_sdl.Renderer) !void {
+        try renderer.setDrawColor(0, 0x80, 0, c.SDL_ALPHA_OPAQUE);
+        const xn = x0 + @intCast(i32, nx) * dx;
+        var iy: usize = 0;
+        while (iy <= ny) : (iy += 1) {
+            const y: i32 = y0 + @intCast(i32, iy) * dy;
+            try renderer.drawLine(x0, y, xn, y);
+        }
+        const yn = y0 + @intCast(i32, ny) * dy;
+        var ix: usize = 0;
+        while (ix <= nx) : (ix += 1) {
+            const x: i32 = x0 + @intCast(i32, ix) * dx;
+            try renderer.drawLine(x, y0, x, yn);
         }
     }
 };
