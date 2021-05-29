@@ -10,6 +10,8 @@ const simple_sdl = @import("simple_sdl.zig");
 const Map = struct {
     const dx = 32;
     const dy = 32;
+    const x0 = 16;
+    const y0 = 16;
     const nx = 30;
     const ny = 20;
 
@@ -19,8 +21,17 @@ const Map = struct {
     pub fn draw(renderer: *simple_sdl.Renderer) !void {
         try renderer.setDrawColor(0, 0, 0, c.SDL_ALPHA_OPAQUE);
         try renderer.clear();
-        try renderer.setDrawColor(0xff, 0x80, 0, c.SDL_ALPHA_OPAQUE);
-        try renderer.fillRect(10, 10, 100, 100);
+
+        var iy: i32 = 0;
+        while (iy < ny) : (iy += 1) {
+            const y = y0 + iy * dy;
+            var ix: i32 = 0;
+            while (ix < nx) : (ix += 1) {
+                const x = x0 + ix * dx;
+                try renderer.setDrawColor(0xff, 0x80, 0, c.SDL_ALPHA_OPAQUE);
+                try renderer.fillRect(x, y, dx / 2, dy / 2);
+            }
+        }
     }
 };
 
