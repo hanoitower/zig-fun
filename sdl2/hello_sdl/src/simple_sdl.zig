@@ -22,9 +22,9 @@ pub const SimpleSdl = struct {
         c.SDL_Quit();
     }
 
-    pub fn createWindow(self: *SimpleSdl) !Window {
+    pub fn createWindow(self: *SimpleSdl, width: i32, height: i32) !Window {
         return Window{
-            .window = c.SDL_CreateWindow("Hello SDL2", c.SDL_WINDOWPOS_CENTERED, c.SDL_WINDOWPOS_CENTERED, 640, 480, 0) orelse {
+            .window = c.SDL_CreateWindow("Hello SDL2", c.SDL_WINDOWPOS_CENTERED, c.SDL_WINDOWPOS_CENTERED, width, height, 0) orelse {
                 std.log.emerg("Unable to create window: {s}", .{c.SDL_GetError()});
                 return error.Failed;
             },
