@@ -91,7 +91,7 @@ pub fn main() !void {
     };
     var text_surface = try font.renderSolidText("Game of Life", text_color);
     defer text_surface.deinit();
-    var window = try sdl.createWindow(Map.width, Map.height);
+    var window = try sdl.createWindow("Game of Life", Map.width, Map.height);
     defer window.deinit();
     var renderer = try window.createRenderer();
     defer renderer.deinit();
