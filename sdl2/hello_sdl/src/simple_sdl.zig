@@ -5,6 +5,8 @@
 const c = @import("c.zig");
 const std = @import("std");
 
+pub const Color = c.SDL_Color;
+
 pub fn init() !SimpleSdl {
     if (c.SDL_Init(c.SDL_INIT_VIDEO) != 0) {
         std.log.emerg("Unable to initialize SDL: {s}", .{c.SDL_GetError()});
@@ -94,7 +96,54 @@ pub const Renderer = struct {
         }
     }
 
+    pub fn drawTexture(self: *Renderer, texture: Texture, x: i32, y: i32) !void {
+        var width: c_int = undefined;
+        var height: c_int = undefined;
+        if (c.SDL_QueryTexture(texture.texture, 0, 0, &width, &height) != 0) {
+            std.log.emerg("Error in SDL_QueryTexture: {s}", .{c.SDL_GetError()});
+            return error.Failed;
+        }
+        const dest_rect = c.SDL_Rect{
+            .x = x,
+            .y = y,
+            .w = width,
+            .h = height,
+        };
+        if (c.SDL_RenderCopy(self.renderer, texture.texture, 0, &dest_rect) != 0) {
+            std.log.emerg("Error in SDL_RenderCopy: {s}", .{c.SDL_GetError()});
+            return error.Failed;
+        }
+    }
+
+    pub fn createTextureFromSurface(
+        self: *Renderer,
+        surface: Surface,
+    ) !Texture {
+        return Texture{
+            .texture = c.SDL_CreateTextureFromSurface(self.renderer, surface.surface) orelse {
+                std.log.emerg("Error in SDL_CreateTextureFromSurface: {s}", .{c.SDL_GetError()});
+                return error.Failed;
+            },
+        };
+    }
+
     pub fn present(self: *Renderer) void {
         c.SDL_RenderPresent(self.renderer);
+    }
+};
+
+pub const Surface = struct {
+    surface: *c.SDL_Surface,
+
+    pub fn deinit(self: *Surface) void {
+        c.SDL_FreeSurface(self.surface);
+    }
+};
+
+pub const Texture = struct {
+    texture: *c.SDL_Texture,
+
+    pub fn deinit(self: *Texture) void {
+        c.SDL_DestroyTexture(self.texture);
     }
 };

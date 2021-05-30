@@ -4,6 +4,7 @@
 
 const c = @import("c.zig");
 const std = @import("std");
+const sdl = @import("simple_sdl.zig");
 
 pub fn init() !SimpleTtf {
     if (c.TTF_Init() != 0) {
@@ -33,5 +34,14 @@ pub const Font = struct {
 
     pub fn deinit(self: *Font) void {
         c.TTF_CloseFont(self.font);
+    }
+
+    pub fn renderSolidText(self: *Font, text: [*:0]const u8, color: sdl.Color) !sdl.Surface {
+        return sdl.Surface{
+            .surface = c.TTF_RenderUTF8_Solid(self.font, text, color) orelse {
+                std.log.emerg("Unable to open font: {s}", .{c.SDL_GetError()});
+                return error.Failed;
+            },
+        };
     }
 };

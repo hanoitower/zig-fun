@@ -13,12 +13,12 @@ const Map = struct {
     const dx = 32;
     const dy = 32;
     const x0 = 16;
-    const y0 = 16;
+    const y0 = 16 + 88;
     const nx = 30;
     const ny = 20;
 
     const width = (nx + 1) * dx;
-    const height = (ny + 1) * dy;
+    const height = 88 + (ny + 1) * dy;
 
     values: [ny][nx]u8,
 
@@ -56,7 +56,7 @@ const Map = struct {
     }
 
     fn drawGrid(self: *Map, renderer: *simple_sdl.Renderer) !void {
-        try renderer.setDrawColor(0, 0x80, 0, c.SDL_ALPHA_OPAQUE);
+        try renderer.setDrawColor(0, 0x90, 0, c.SDL_ALPHA_OPAQUE);
         const xn = x0 + @intCast(i32, nx) * dx;
         var iy: usize = 0;
         while (iy <= ny) : (iy += 1) {
@@ -79,15 +79,29 @@ pub fn main() !void {
     defer sdl.deinit();
     var ttf = try simple_ttf.init();
     defer ttf.deinit();
-    var font = try ttf.openFont("PetMe.ttf", 8);
+    // var font = try ttf.openFont("fonts/gameovercre1.ttf", 32);
+    // var font = try ttf.openFont("fonts/enhanced_dot_digital-7.ttf", 40);
+    var font = try ttf.openFont("fonts/edundot.ttf", 88);
     defer font.deinit();
+    const text_color = simple_sdl.Color{
+        .r = 0,
+        .g = 0x90,
+        .b = 0,
+        .a = c.SDL_ALPHA_OPAQUE,
+    };
+    var text_surface = try font.renderSolidText("Game of Life", text_color);
+    defer text_surface.deinit();
     var window = try sdl.createWindow(Map.width, Map.height);
     defer window.deinit();
     var renderer = try window.createRenderer();
     defer renderer.deinit();
+    var text_texture = try renderer.createTextureFromSurface(text_surface);
+    defer text_texture.deinit();
     while (!sdl.quit) {
         sdl.tick();
         try map.draw(&renderer);
+        try renderer.drawTexture(text_texture, 16 + 16 * 11, 16);
+        // try renderer.drawTexture(text_texture, 100, 140);
         renderer.present();
     }
 }
