@@ -79,6 +79,8 @@ pub fn main() !void {
     defer sdl.deinit();
     var ttf = try simple_ttf.init();
     defer ttf.deinit();
+    var font = try ttf.openFont("PetMe.ttf", 8);
+    defer font.deinit();
     var window = try sdl.createWindow(Map.width, Map.height);
     defer window.deinit();
     var renderer = try window.createRenderer();

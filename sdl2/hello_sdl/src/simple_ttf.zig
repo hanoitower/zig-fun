@@ -17,4 +17,21 @@ pub const SimpleTtf = struct {
     pub fn deinit(self: *SimpleTtf) void {
         c.TTF_Quit();
     }
+
+    pub fn openFont(self: *SimpleTtf, file_name: [*:0]const u8, pt_size: i32) !Font {
+        return Font{
+            .font = c.TTF_OpenFont(file_name, pt_size) orelse {
+                std.log.emerg("Unable to open font: {s}", .{c.SDL_GetError()});
+                return error.Failed;
+            },
+        };
+    }
+};
+
+pub const Font = struct {
+    font: *c.TTF_Font,
+
+    pub fn deinit(self: *Font) void {
+        c.TTF_CloseFont(self.font);
+    }
 };
