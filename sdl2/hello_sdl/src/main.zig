@@ -6,6 +6,7 @@
 
 const c = @import("c.zig");
 const simple_sdl = @import("simple_sdl.zig");
+const simple_ttf = @import("simple_ttf.zig");
 const myrand = @import("myrand.zig");
 
 const Map = struct {
@@ -76,6 +77,8 @@ pub fn main() !void {
     var map = Map.init(&prng);
     var sdl = try simple_sdl.init();
     defer sdl.deinit();
+    var ttf = try simple_ttf.init();
+    defer ttf.deinit();
     var window = try sdl.createWindow(Map.width, Map.height);
     defer window.deinit();
     var renderer = try window.createRenderer();
