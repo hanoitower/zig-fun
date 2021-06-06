@@ -9,9 +9,9 @@ const std = @import("std");
 pub const Prng = struct {
     rng: std.rand.DefaultPrng,
 
-    pub fn create() !Prng {
+    pub fn create() Prng {
         var seed_bytes: [@sizeOf(u64)]u8 = undefined;
-        try std.crypto.randomBytes(seed_bytes[0..]);
+        std.crypto.random.bytes(seed_bytes[0..]);
         const seed = std.mem.readIntNative(u64, &seed_bytes);
         return Prng{
             .rng = std.rand.DefaultPrng.init(seed),

@@ -73,7 +73,7 @@ const Map = struct {
 };
 
 pub fn main() !void {
-    var prng = try myrand.Prng.create();
+    var prng = myrand.Prng.create();
     var map = Map.init(&prng);
     var sdl = try simple_sdl.init();
     defer sdl.deinit();
