@@ -10,12 +10,15 @@ fn activate(app: *c.GtkApplication, user_data: c.gpointer) callconv(.C) void {
     c.gtk_window_set_title(@ptrCast(*c.GtkWindow, window), "Window");
     c.gtk_window_set_default_size(@ptrCast(*c.GtkWindow, window), 200, 200);
 
+    const button_box = c.gtk_button_box_new(.GTK_ORIENTATION_HORIZONTAL);
+    c.gtk_container_add(@ptrCast(*c.GtkContainer, window), button_box);
+
     const button = c.gtk_button_new_with_label("Hello World");
     _ = c.g_signal_connect_data(button, "clicked", @ptrCast(c.GCallback, print_hello), c.NULL, @ptrCast(c.GClosureNotify, c.NULL), @intToEnum(c.GConnectFlags, 0));
 
-    // c.gtk_window_set_child(window, button);
+    c.gtk_container_add(@ptrCast(*c.GtkContainer, button_box), button);
 
-    c.gtk_window_present(@ptrCast(*c.GtkWindow, window));
+    c.gtk_widget_show_all(window);
 }
 
 pub fn main() !void {
