@@ -7,7 +7,7 @@
 const c = @import("c.zig");
 const simple_sdl = @import("simple_sdl.zig");
 const simple_ttf = @import("simple_ttf.zig");
-const myrand = @import("myrand.zig");
+const myrand = @import("myrand");
 
 const Map = struct {
     const dx = 32;
