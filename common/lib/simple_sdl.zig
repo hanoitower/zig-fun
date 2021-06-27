@@ -2,7 +2,7 @@
 // simple_sdl.zig
 //
 
-const c = @import("c.zig");
+const c = @import("cimport");
 const std = @import("std");
 
 pub const Color = c.SDL_Color;

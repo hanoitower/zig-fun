@@ -4,9 +4,9 @@
 // hello sdl
 //
 
-const c = @import("c.zig");
-const simple_sdl = @import("simple_sdl.zig");
-const simple_ttf = @import("simple_ttf.zig");
+const c = @import("cimport");
+const simple_sdl = @import("simple_sdl");
+const simple_ttf = @import("simple_ttf");
 const myrand = @import("myrand");
 
 const Map = struct {

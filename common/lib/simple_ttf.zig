@@ -2,7 +2,7 @@
 // simple_ttf.zig
 //
 
-const c = @import("c.zig");
+const c = @import("cimport");
 const std = @import("std");
 const sdl = @import("simple_sdl.zig");
 
