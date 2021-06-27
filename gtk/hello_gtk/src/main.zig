@@ -24,6 +24,10 @@ fn activate(app: *c.GtkApplication, user_data: c.gpointer) callconv(.C) void {
 pub fn main() !void {
     std.log.info("All your codebase are belong to us.", .{});
 
+    const win_type = c.gtk_window_get_type();
+    // const win_type = c.GTK_TYPE_WINDOW;
+    std.log.info("Window type is {d}", .{win_type});
+
     const app = c.gtk_application_new("org.gtk.example", .G_APPLICATION_FLAGS_NONE);
     defer c.g_object_unref(app);
 
