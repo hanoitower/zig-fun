@@ -14,7 +14,7 @@ pub fn build(b: *Builder) void {
     const exe = b.addExecutable("hello_sdl", "src/main.zig");
     exe.setTarget(target);
     exe.setBuildMode(mode);
-    exe.addPackagePath("myrand", "lib/myrand.zig");
+    exe.addPackagePath("myrand", "../../common/lib/myrand.zig");
     exe.linkSystemLibrary("SDL2");
     exe.linkSystemLibrary("SDL2_ttf");
     exe.linkSystemLibrary("c");

@@ -14,6 +14,7 @@ pub fn build(b: *Builder) void {
     const exe = b.addExecutable("random", "src/main.zig");
     exe.setTarget(target);
     exe.setBuildMode(mode);
+    exe.addPackagePath("myrand", "../common/lib/myrand.zig");
     exe.install();
 
     const run_cmd = exe.run();

@@ -1,6 +1,6 @@
 const std = @import("std");
 
-const myrand = @import("myrand.zig");
+const myrand = @import("myrand");
 
 pub fn main() !void {
     const stdout = std.io.getStdOut().writer();
